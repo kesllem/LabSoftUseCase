@@ -17,6 +17,8 @@ public partial class DbTasksContext : DbContext
 
     public virtual DbSet<Funcionario> Funcionarios { get; set; }
 
+    public virtual DbSet<Incidente> Incidentes { get; set; }
+
     public virtual DbSet<Tarefa> Tarefas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,7 +28,7 @@ public partial class DbTasksContext : DbContext
     {
         modelBuilder.Entity<Funcionario>(entity =>
         {
-            entity.HasKey(e => e.Codigo).HasName("PK__Funciona__06370DADCC2F491C");
+            entity.HasKey(e => e.Codigo).HasName("PK__Funciona__06370DAD11BDC873");
 
             entity.ToTable("Funcionario");
 
@@ -38,9 +40,27 @@ public partial class DbTasksContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<Incidente>(entity =>
+        {
+            entity.HasKey(e => e.Codigo).HasName("PK__Incident__06370DADADB23177");
+
+            entity.ToTable("Incidente");
+
+            entity.Property(e => e.DataIncidente).HasColumnType("datetime");
+            entity.Property(e => e.DescricaoProblema)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.Resolvido)
+                .HasMaxLength(3)
+                .IsUnicode(false);
+            entity.Property(e => e.Solucao)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Tarefa>(entity =>
         {
-            entity.HasKey(e => e.Codigo).HasName("PK__Tarefa__06370DAD89C1CEB3");
+            entity.HasKey(e => e.Codigo).HasName("PK__Tarefa__06370DADAC6B30FD");
 
             entity.ToTable("Tarefa");
 
