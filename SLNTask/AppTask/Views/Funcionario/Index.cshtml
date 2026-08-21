@@ -1,41 +1,54 @@
 ﻿@model IEnumerable<AppTask.Models.Funcionario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Funcionários";
 }
 
-<h1>Index</h1>
+<h1 class="mb-4">Lista de Funcionários</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/Funcionario/Create" class="btn btn-success text-white">Novo</a>
 </p>
-<table class="table">
-    <thead>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th></th>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Ações</th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cargo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Codigo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Codigo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Codigo">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Cargo</td>
+
+                <td>
+                    <a href="/Funcionario/Edit/@item.Codigo"
+                       class="btn btn-primary btn-sm text-white">
+                        Alterar
+                    </a>
+
+                    <a href="/Funcionario/Details/@item.Codigo"
+                       class="btn btn-success btn-sm text-white"
+                       style="background-color: #006400;">
+                        Detalhe
+                    </a>
+
+                    <!-- Botão que abre o modal -->
+                    <button type="button"
+                            class="btn btn-danger btn-sm text-white"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-id="@item.Codigo"
+                            data-nome="@item.Nome">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
