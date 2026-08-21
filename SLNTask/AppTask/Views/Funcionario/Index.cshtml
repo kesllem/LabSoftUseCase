@@ -52,3 +52,80 @@
         }
     </tbody>
 </table>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade"
+     id="deleteModal"
+     tabindex="-1"
+     aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    Confirmação de Exclusão
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                Deseja realmente excluir o funcionário:
+                <strong id="funcionarioNome"></strong>?
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="modal-btn-cancel btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <!-- Formulário que dispara o POST de Delete para a Controller -->
+                <form id="deleteForm" method="post" action="">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-danger">
+                        Sim, Excluir
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // Captura os dados do funcionário e coloca no modal
+        var deleteModal = document.getElementById('deleteModal');
+
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+
+            // Botão que abriu o modal
+            var button = event.relatedTarget;
+
+            // Pega o ID do funcionário
+            var id = button.getAttribute('data-id');
+
+            // Pega o nome do funcionário
+            var nome = button.getAttribute('data-nome');
+
+            // Atualiza o nome exibido no modal
+            var modalNomeSpan = deleteModal.querySelector('#funcionarioNome');
+            modalNomeSpan.textContent = nome;
+
+            // Atualiza a rota do formulário
+            var deleteForm = deleteModal.querySelector('#deleteForm');
+            deleteForm.action = '/Funcionario/Delete/' + id;
+        });
+    </script>
+}
