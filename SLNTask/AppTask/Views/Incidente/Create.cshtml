@@ -1,48 +1,104 @@
 ﻿@model AppTask.Models.Incidente
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Novo Incidente";
 }
 
-<h1>Create</h1>
+<h1 class="mb-4">Cadastrar Novo Incidente</h1>
 
-<h4>Incidente</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DescricaoProblema" class="control-label"></label>
-                <input asp-for="DescricaoProblema" class="form-control" />
-                <span asp-validation-for="DescricaoProblema" class="text-danger"></span>
+    <div class="col-md-6">
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- Mostra erros de validação -->
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3">
             </div>
-            <div class="form-group">
-                <label asp-for="DataIncidente" class="control-label"></label>
-                <input asp-for="DataIncidente" class="form-control" />
-                <span asp-validation-for="DataIncidente" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="DescricaoProblema" class="form-label">
+                    Descrição do Problema
+                </label>
+
+                <input asp-for="DescricaoProblema"
+                       class="form-control"
+                       placeholder="Digite a descrição do problema" />
+
+                <span asp-validation-for="DescricaoProblema"
+                      class="text-danger">
+                </span>
             </div>
-            <div class="form-group">
-                <label asp-for="Solucao" class="control-label"></label>
-                <input asp-for="Solucao" class="form-control" />
-                <span asp-validation-for="Solucao" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="DataIncidente" class="form-label">
+                    Data do Incidente
+                </label>
+
+                <input asp-for="DataIncidente"
+                       type="datetime-local"
+                       class="form-control" />
+
+                <span asp-validation-for="DataIncidente"
+                      class="text-danger">
+                </span>
             </div>
-            <div class="form-group">
-                <label asp-for="Resolvido" class="control-label"></label>
-                <input asp-for="Resolvido" class="form-control" />
-                <span asp-validation-for="Resolvido" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="Solucao" class="form-label">
+                    Solução
+                </label>
+
+                <input asp-for="Solucao"
+                       class="form-control"
+                       placeholder="Digite a solução aplicada" />
+
+                <span asp-validation-for="Solucao"
+                      class="text-danger">
+                </span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="mb-3">
+                <label asp-for="Resolvido" class="form-label">
+                    Resolvido
+                </label>
+
+                <select asp-for="Resolvido"
+                        class="form-select">
+
+                    <option value="">-- Selecione --</option>
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+
+                </select>
+
+                <span asp-validation-for="Resolvido"
+                      class="text-danger">
+                </span>
             </div>
+
+            <div class="mb-3 d-flex gap-2">
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Salvar Incidente
+                </button>
+
+                <a href="/Incidente/Index"
+                   class="btn btn-secondary">
+                    Voltar para a Lista
+                </a>
+
+            </div>
+
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
