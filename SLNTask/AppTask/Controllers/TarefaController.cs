@@ -70,7 +70,22 @@ namespace AppTask.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListaFuncionario"] = new SelectList(_context.Funcionarios, "Codigo", "Nome", tarefa.FuncionarioId);
+
+            foreach (var item in ModelState)
+            {
+                foreach (var error in item.Value.Errors)
+                {
+                    Console.WriteLine($"Campo: {item.Key} - Erro: {error.ErrorMessage}");
+                }
+            }
+
+            ViewData["ListaFuncionario"] = new SelectList(
+                _context.Funcionarios,
+                "Codigo",
+                "Nome",
+                tarefa.FuncionarioId
+            );
+
             return View(tarefa);
         }
 
