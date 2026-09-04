@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AppTask.Models;
 
@@ -33,7 +28,8 @@ namespace AppTask.Controllers
             }
 
             var departamento = await _context.Departamento
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Codigo == id);
+
             if (departamento == null)
             {
                 return NotFound();
@@ -49,18 +45,19 @@ namespace AppTask.Controllers
         }
 
         // POST: Departamento/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descricao,Ativo")] Departamento departamento)
+        public async Task<IActionResult> Create(
+            [Bind("Codigo,Nome,Sigla,Ativo")] Departamento departamento)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(departamento);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(departamento);
         }
 
@@ -73,21 +70,23 @@ namespace AppTask.Controllers
             }
 
             var departamento = await _context.Departamento.FindAsync(id);
+
             if (departamento == null)
             {
                 return NotFound();
             }
+
             return View(departamento);
         }
 
         // POST: Departamento/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,Ativo")] Departamento departamento)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Codigo,Nome,Sigla,Ativo")] Departamento departamento)
         {
-            if (id != departamento.Id)
+            if (id != departamento.Codigo)
             {
                 return NotFound();
             }
@@ -101,7 +100,7 @@ namespace AppTask.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartamentoExists(departamento.Id))
+                    if (!DepartamentoExists(departamento.Codigo))
                     {
                         return NotFound();
                     }
@@ -110,8 +109,10 @@ namespace AppTask.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(departamento);
         }
 
@@ -124,7 +125,8 @@ namespace AppTask.Controllers
             }
 
             var departamento = await _context.Departamento
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Codigo == id);
+
             if (departamento == null)
             {
                 return NotFound();
@@ -139,18 +141,22 @@ namespace AppTask.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var departamento = await _context.Departamento.FindAsync(id);
+
             if (departamento != null)
             {
                 _context.Departamento.Remove(departamento);
             }
 
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool DepartamentoExists(int id)
         {
-            return _context.Departamento.Any(e => e.Id == id);
+            return _context.Departamento.Any(e => e.Codigo == id);
         }
     }
+
+
 }
