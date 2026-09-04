@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AppTask.Models;
 
@@ -23,6 +23,6 @@ public partial class Tarefa
 
     public int FuncionarioId { get; set; }
 
-    public virtual Funcionario Funcionario { get; set; } = null!;
+    [ValidateNever]
+    public virtual Funcionario? Funcionario { get; set; }
 }
-

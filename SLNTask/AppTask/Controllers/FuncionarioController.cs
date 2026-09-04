@@ -21,7 +21,7 @@ namespace AppTask.Views
         // GET: Funcionario
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Funcionarios.ToListAsync());
+            return View(await _context.Funcionario.ToListAsync());
         }
 
         // GET: Funcionario/Details/5
@@ -32,7 +32,7 @@ namespace AppTask.Views
                 return NotFound();
             }
 
-            var funcionario = await _context.Funcionarios
+            var funcionario = await _context.Funcionario
                 .FirstOrDefaultAsync(m => m.Codigo == id);
             if (funcionario == null)
             {
@@ -45,15 +45,20 @@ namespace AppTask.Views
         // GET: Funcionario/Create
         public IActionResult Create()
         {
+            ViewData["DepartamentoId"] = new SelectList(
+                _context.Departamento,
+                "Id",
+                "Nome"
+            );
+
             return View();
         }
 
         // POST: Funcionario/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Nome,Cargo")] Funcionario funcionario)
+        public async Task<IActionResult> Create(
+            [Bind("Codigo,Nome,Cargo,DepartamentoId")] Funcionario funcionario)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,14 @@ namespace AppTask.Views
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["DepartamentoId"] = new SelectList(
+                _context.Departamento,
+                "Id",
+                "Nome",
+                funcionario.DepartamentoId
+            );
+
             return View(funcionario);
         }
 
@@ -72,7 +85,7 @@ namespace AppTask.Views
                 return NotFound();
             }
 
-            var funcionario = await _context.Funcionarios.FindAsync(id);
+            var funcionario = await _context.Funcionario.FindAsync(id);
             if (funcionario == null)
             {
                 return NotFound();
@@ -123,7 +136,7 @@ namespace AppTask.Views
                 return NotFound();
             }
 
-            var funcionario = await _context.Funcionarios
+            var funcionario = await _context.Funcionario
                 .FirstOrDefaultAsync(m => m.Codigo == id);
             if (funcionario == null)
             {
@@ -138,10 +151,10 @@ namespace AppTask.Views
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var funcionario = await _context.Funcionarios.FindAsync(id);
+            var funcionario = await _context.Funcionario.FindAsync(id);
             if (funcionario != null)
             {
-                _context.Funcionarios.Remove(funcionario);
+                _context.Funcionario.Remove(funcionario);
             }
 
             await _context.SaveChangesAsync();
@@ -150,7 +163,7 @@ namespace AppTask.Views
 
         private bool FuncionarioExists(int id)
         {
-            return _context.Funcionarios.Any(e => e.Codigo == id);
+            return _context.Funcionario.Any(e => e.Codigo == id);
         }
     }
 }

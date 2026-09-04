@@ -1,151 +1,95 @@
 ﻿@model AppTask.Models.Tarefa
 
-@{
-    ViewData["Title"] = "Nova Tarefa";
-}
-
 <h1 class="mb-4">Cadastrar Nova Tarefa</h1>
 
 <div class="row">
     <div class="col-md-6">
-
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
 
-            <!-- Mostra erros de validação -->
             <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-            <div class="mb-3">
-                <label asp-for="Descricao" class="form-label">
-                    Descrição
-                </label>
 
+            <div class="mb-3">
+                <label asp-for="Descricao" class="form-label">Descrição</label>
                 <input asp-for="Descricao"
                        class="form-control"
                        placeholder="Digite a descrição da tarefa" />
-
-                <span asp-validation-for="Descricao"
-                      class="text-danger"></span>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DataPlanejada" class="form-label">
-                    Data Planejada
-                </label>
-
+                <label asp-for="DataPlanejada" class="form-label">Data Planejada</label>
                 <input asp-for="DataPlanejada"
                        type="datetime-local"
                        class="form-control" />
-
-                <span asp-validation-for="DataPlanejada"
-                      class="text-danger"></span>
+                <span asp-validation-for="DataPlanejada" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DataIniciada" class="form-label">
-                    Data Iniciada
-                </label>
-
+                <label asp-for="DataIniciada" class="form-label">Data Iniciada</label>
                 <input asp-for="DataIniciada"
                        type="datetime-local"
                        class="form-control" />
-
-                <span asp-validation-for="DataIniciada"
-                      class="text-danger"></span>
+                <span asp-validation-for="DataIniciada" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DataFinalizada" class="form-label">
-                    Data Finalizada
-                </label>
-
+                <label asp-for="DataFinalizada" class="form-label">Data Finalizada</label>
                 <input asp-for="DataFinalizada"
                        type="datetime-local"
                        class="form-control" />
-
-                <span asp-validation-for="DataFinalizada"
-                      class="text-danger"></span>
+                <span asp-validation-for="DataFinalizada" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DataCancelada" class="form-label">
-                    Data Cancelada
-                </label>
-
+                <label asp-for="DataCancelada" class="form-label">Data Cancelada</label>
                 <input asp-for="DataCancelada"
                        type="datetime-local"
                        class="form-control" />
-
-                <span asp-validation-for="DataCancelada"
-                      class="text-danger"></span>
+                <span asp-validation-for="DataCancelada" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="StatusTarefa" class="form-label">
-                    Status da Tarefa
-                </label>
-
-                <select asp-for="StatusTarefa"
-                        class="form-select">
-
+                <label asp-for="StatusTarefa" class="form-label">Status da Tarefa</label>
+                <select asp-for="StatusTarefa" class="form-select">
                     <option value="">-- Selecione o Status --</option>
                     <option value="Pendente">Pendente</option>
                     <option value="Em Andamento">Em Andamento</option>
                     <option value="Concluído">Concluído</option>
                     <option value="Cancelado">Cancelado</option>
-
                 </select>
-
-                <span asp-validation-for="StatusTarefa"
-                      class="text-danger"></span>
+                <span asp-validation-for="StatusTarefa" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Prazo" class="form-label">
-                    Prazo
-                </label>
-
+                <label asp-for="Prazo" class="form-label">Prazo</label>
                 <input asp-for="Prazo"
                        class="form-control"
-                       placeholder="Ex: Em dia, Em atraso" />
-
-                <span asp-validation-for="Prazo"
-                      class="text-danger"></span>
+                       placeholder="Ex.: Em dia ou Em atraso" />
+                <span asp-validation-for="Prazo" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="FuncionarioId" class="form-label">
-                    Funcionário Responsável
-                </label>
-
+                <label asp-for="FuncionarioId" class="form-label">Funcionário Responsável</label>
                 <select asp-for="FuncionarioId"
                         class="form-select"
                         asp-items="ViewBag.ListaFuncionario">
-
                     <option value="">-- Selecione um Funcionário --</option>
-
                 </select>
-
-                <span asp-validation-for="FuncionarioId"
-                      class="text-danger"></span>
+                <span asp-validation-for="FuncionarioId" class="text-danger"></span>
             </div>
 
             <div class="mb-3 d-flex gap-2">
-
-                <button type="submit"
-                        class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                     Salvar Tarefa
                 </button>
 
-                <a href="/Tarefa/Index"
-                   class="btn btn-secondary">
+                <a asp-action="Index" class="btn btn-secondary">
                     Voltar para a Lista
                 </a>
-
             </div>
-
         </form>
-
     </div>
 </div>
 

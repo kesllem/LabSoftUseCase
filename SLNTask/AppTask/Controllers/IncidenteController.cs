@@ -21,7 +21,7 @@ namespace AppTask.Controllers
         // GET: Incidente
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Incidentes.ToListAsync());
+            return View(await _context.Incidente.ToListAsync());
         }
 
         // GET: Incidente/Details/5
@@ -32,7 +32,7 @@ namespace AppTask.Controllers
                 return NotFound();
             }
 
-            var incidente = await _context.Incidentes
+            var incidente = await _context.Incidente
                 .FirstOrDefaultAsync(m => m.Codigo == id);
             if (incidente == null)
             {
@@ -72,7 +72,7 @@ namespace AppTask.Controllers
                 return NotFound();
             }
 
-            var incidente = await _context.Incidentes.FindAsync(id);
+            var incidente = await _context.Incidente.FindAsync(id);
             if (incidente == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace AppTask.Controllers
                 return NotFound();
             }
 
-            var incidente = await _context.Incidentes
+            var incidente = await _context.Incidente
                 .FirstOrDefaultAsync(m => m.Codigo == id);
             if (incidente == null)
             {
@@ -138,10 +138,10 @@ namespace AppTask.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var incidente = await _context.Incidentes.FindAsync(id);
+            var incidente = await _context.Incidente.FindAsync(id);
             if (incidente != null)
             {
-                _context.Incidentes.Remove(incidente);
+                _context.Incidente.Remove(incidente);
             }
 
             await _context.SaveChangesAsync();
@@ -150,7 +150,7 @@ namespace AppTask.Controllers
 
         private bool IncidenteExists(int id)
         {
-            return _context.Incidentes.Any(e => e.Codigo == id);
+            return _context.Incidente.Any(e => e.Codigo == id);
         }
     }
 }

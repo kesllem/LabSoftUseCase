@@ -19,6 +19,7 @@ public partial class DbTasksContext : DbContext
     public virtual DbSet<Funcionario> Funcionario { get; set; } = null!;
     public virtual DbSet<Tarefa> Tarefa { get; set; } = null!;
     public virtual DbSet<Incidente> Incidente { get; set; } = null!;
+    public virtual DbSet<CentralCusto> CentralCustos { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,17 +33,27 @@ public partial class DbTasksContext : DbContext
     {
         modelBuilder.Entity<Departamento>(entity =>
         {
-            entity.HasKey(e => e.Codigo);
+            entity.HasKey(e => e.Id);
+
             entity.ToTable("Departamento");
 
-            entity.Property(e => e.Nome)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Id)
+                .HasColumnName("Id");
 
-            entity.Property(e => e.Sigla)
-                .HasMaxLength(10)
-                .IsUnicode(false);
+            entity.Property(e => e.Descricao)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("Descricao");
+
+            entity.Property(e => e.Ativo)
+                .HasColumnName("Ativo");
+
+            entity.HasMany(e => e.Funcionario)
+                .WithOne(e => e.Departamento)
+                .HasForeignKey(e => e.DepartamentoId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
+
 
         modelBuilder.Entity<Funcionario>(entity =>
         {
@@ -95,7 +106,7 @@ public partial class DbTasksContext : DbContext
                 .HasColumnType("datetime");
 
             entity.HasOne(e => e.Funcionario)
-                .WithMany(e => e.Tarefas)
+                .WithMany(e => e.Tarefa)
                 .HasForeignKey(e => e.FuncionarioId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Tarefa_Funcionario");

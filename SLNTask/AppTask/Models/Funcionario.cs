@@ -1,6 +1,6 @@
 ﻿namespace AppTask.Models;
 
-public class Funcionario
+public partial class Funcionario
 {
     public int Codigo { get; set; }
 
@@ -11,6 +11,7 @@ public class Funcionario
     public int DepartamentoId { get; set; }
 
     public virtual Departamento Departamento { get; set; } = null!;
-    public virtual ICollection<Tarefa> Tarefas { get; set; }
-       = new List<Tarefa>();
+
+    public virtual ICollection<Tarefa> Tarefa { get; set; }
+        = new List<Tarefa>();
 }

@@ -28,7 +28,7 @@ namespace AppTask.Controllers
             }
 
             var departamento = await _context.Departamento
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (departamento == null)
             {
@@ -86,7 +86,7 @@ namespace AppTask.Controllers
             int id,
             [Bind("Codigo,Nome,Sigla,Ativo")] Departamento departamento)
         {
-            if (id != departamento.Codigo)
+            if (id != departamento.Id)
             {
                 return NotFound();
             }
@@ -100,7 +100,7 @@ namespace AppTask.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartamentoExists(departamento.Codigo))
+                    if (!DepartamentoExists(departamento.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace AppTask.Controllers
             }
 
             var departamento = await _context.Departamento
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (departamento == null)
             {
@@ -154,7 +154,7 @@ namespace AppTask.Controllers
 
         private bool DepartamentoExists(int id)
         {
-            return _context.Departamento.Any(e => e.Codigo == id);
+            return _context.Departamento.Any(e => e.Id == id);
         }
     }
 
