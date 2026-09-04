@@ -5,9 +5,14 @@ namespace AppTask.Models;
 
 public partial class Departamento
 {
-    public int Id { get; set; }
+    public int Codigo { get; set; }
 
-    public string Descricao { get; set; } = null!;
+    public string Nome { get; set; } = null!;
+
+    public string Sigla { get; set; } = null!;
 
     public bool Ativo { get; set; }
+
+    public virtual ICollection<Funcionario> Funcionario { get; set; }
+        = new List<Funcionario>();
 }
