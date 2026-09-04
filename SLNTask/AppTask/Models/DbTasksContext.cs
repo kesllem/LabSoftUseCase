@@ -4,6 +4,8 @@ namespace AppTask.Models;
 
 public partial class DbTasksContext : DbContext
 {
+    internal object CentralCusto;
+
     public DbTasksContext()
     {
     }

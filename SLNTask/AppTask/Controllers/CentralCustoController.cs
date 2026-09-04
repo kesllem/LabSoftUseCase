@@ -21,7 +21,12 @@ namespace AppTask.Controllers
         // GET: CentralCusto
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CentralCustos.ToListAsync());
+            return View(await _context.CentralCusto.ToListAsync());
+        }
+
+        private IActionResult View(object value)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: CentralCusto/Details/5
