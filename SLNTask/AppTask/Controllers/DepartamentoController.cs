@@ -130,6 +130,8 @@ namespace AppTask.Controllers
                 return NotFound();
             }
 
+            ViewBag.TemFuncionarios = await _context.Funcionarios.AnyAsync(f => f.DepartamentoId == id);
+
             return View(departamento);
         }
 
@@ -139,11 +141,20 @@ namespace AppTask.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var departamento = await _context.Departamento.FindAsync(id);
-            if (departamento != null)
+            if (departamento == null)
             {
-                _context.Departamento.Remove(departamento);
+                return NotFound();
             }
 
+            bool temFuncionarios = await _context.Funcionarios.AnyAsync(f => f.DepartamentoId == id);
+            if (temFuncionarios)
+            {
+                ModelState.AddModelError("", "Não é possível excluir este departamento pois existem funcionários vinculados a ele.");
+                ViewBag.TemFuncionarios = true;
+                return View("Delete", departamento);
+            }
+
+            _context.Departamento.Remove(departamento);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

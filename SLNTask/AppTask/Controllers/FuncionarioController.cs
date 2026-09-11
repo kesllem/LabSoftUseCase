@@ -45,6 +45,7 @@ namespace AppTask.Views
         // GET: Funcionario/Create
         public IActionResult Create()
         {
+            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "Id", "Descricao");
             return View();
         }
 
@@ -53,7 +54,7 @@ namespace AppTask.Views
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Nome,Cargo")] Funcionario funcionario)
+        public async Task<IActionResult> Create([Bind("Codigo,Nome,Cargo,DepartamentoId")] Funcionario funcionario)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +62,7 @@ namespace AppTask.Views
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "Id", "Descricao", funcionario.DepartamentoId);
             return View(funcionario);
         }
 
