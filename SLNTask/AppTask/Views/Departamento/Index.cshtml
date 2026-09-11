@@ -4,57 +4,128 @@
     ViewData["Title"] = "Departamentos";
 }
 
-<h1 class="mb-4">Lista de Departamentos</h1>
+<div class="page-header">
 
-<p>
-    <a href="/Departamento/Create" class="btn btn-success text-white">Novo</a>
-</p>
+    <div>
 
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Descrição</th>
-            <th>Ativo</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
+        <h1 class="page-title">
+            Departamentos
+        </h1>
 
-    <tbody>
+        <p class="page-subtitle">
+            @Model.Count() departamento(s) cadastrado(s)
+        </p>
+
+    </div>
+
+    <a href="/Departamento/Create"
+       class="btn-accent">
+        ➕ Novo Departamento
+    </a>
+
+</div>
+
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+
+        <p>
+            🏢 Nenhum departamento cadastrado ainda.
+        </p>
+
+        <a href="/Departamento/Create"
+           class="btn-accent">
+            ➕ Criar primeiro departamento
+        </a>
+
+    </div>
+}
+else
+{
+    <div class="card-grid">
+
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Descricao</td>
+            <div class="entity-card status-info">
 
-                <td>@item.Ativo</td>
+                <div class="entity-card-header">
 
-                <td>
-                    <a href="/Departamento/Edit/@item.Id"
-                       class="btn btn-primary btn-sm text-white">
-                        Alterar
-                    </a>
+                    <h3 class="entity-card-title">
+                        @item.Descricao
+                    </h3>
+
+                    <span class="status-badge status-info">
+                        🏢 Departamento
+                    </span>
+
+                </div>
+
+
+                <div class="entity-owner">
+
+                    <span class="avatar-badge">
+                        🏢
+                    </span>
+
+                    <span class="entity-owner-name">
+                        @item.Descricao
+                    </span>
+
+                </div>
+
+
+                <div class="meta-list">
+
+                    <div class="meta-row">
+                        📝 Descrição:
+                        <strong>
+                            @item.Descricao
+                        </strong>
+                    </div>
+
+                    <div class="meta-row">
+                        ⚡ Ativo:
+                        <strong>
+                            @item.Ativo
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="entity-card-actions">
 
                     <a href="/Departamento/Details/@item.Id"
-                       class="btn btn-success btn-sm text-white"
-                       style="background-color: #006400;">
-                        Detalhe
+                       class="btn-pill btn-pill-ghost">
+                        Abrir
                     </a>
 
-                    <!-- Botão que abre o modal -->
+                    <a href="/Departamento/Edit/@item.Id"
+                       class="btn-pill btn-pill-accent">
+                        Editar
+                    </a>
+
                     <button type="button"
-                            class="btn btn-danger btn-sm text-white"
+                            class="btn-pill btn-pill-danger"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
                             data-id="@item.Id"
                             data-descricao="@item.Descricao">
-                        Delete
+                        Excluir
                     </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-<!-- Modal de Confirmação de Exclusão -->
+                </div>
+
+            </div>
+        }
+
+    </div>
+}
+
+
+<!-- MODAL DE EXCLUSÃO -->
+
 <div class="modal fade"
      id="deleteModal"
      tabindex="-1"
@@ -62,10 +133,13 @@
      aria-hidden="true">
 
     <div class="modal-dialog">
+
         <div class="modal-content">
 
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteModalLabel">
+
+                <h5 class="modal-title"
+                    id="deleteModalLabel">
                     Confirmação de Exclusão
                 </h5>
 
@@ -74,12 +148,18 @@
                         data-bs-dismiss="modal"
                         aria-label="Close">
                 </button>
+
             </div>
 
+
             <div class="modal-body">
+
                 Deseja realmente excluir o departamento:
+
                 <strong id="departamentoDescricao"></strong>?
+
             </div>
+
 
             <div class="modal-footer">
 
@@ -89,47 +169,67 @@
                     Cancelar
                 </button>
 
-                <!-- Formulário que dispara o POST de Delete para a Controller -->
-                <form id="deleteForm" method="post" action="">
+                <form id="deleteForm"
+                      method="post"
+                      action="">
+
                     @Html.AntiForgeryToken()
 
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit"
+                            class="btn btn-danger">
                         Sim, Excluir
                     </button>
+
                 </form>
 
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 
 @section Scripts {
+
     <script>
-        // Captura os dados do departamento e coloca no modal
-        var deleteModal = document.getElementById('deleteModal');
 
-        deleteModal.addEventListener('show.bs.modal', function (event) {
+        var deleteModal =
+            document.getElementById('deleteModal');
 
-            // Botão que abriu o modal
-            var button = event.relatedTarget;
+        deleteModal.addEventListener(
+            'show.bs.modal',
+            function (event) {
 
-            // Pega o ID do departamento
-            var id = button.getAttribute('data-id');
+                var button =
+                    event.relatedTarget;
 
-            // Pega a descrição do departamento
-            var descricao = button.getAttribute('data-descricao');
+                var id =
+                    button.getAttribute('data-id');
 
-            // Atualiza a descrição exibida no modal
-            var modalDescricaoSpan =
-                deleteModal.querySelector('#departamentoDescricao');
+                var descricao =
+                    button.getAttribute(
+                        'data-descricao'
+                    );
 
-            modalDescricaoSpan.textContent = descricao;
+                var modalDescricaoSpan =
+                    deleteModal.querySelector(
+                        '#departamentoDescricao'
+                    );
 
-            // Atualiza a rota do formulário
-            var deleteForm = deleteModal.querySelector('#deleteForm');
+                modalDescricaoSpan.textContent =
+                    descricao;
 
-            deleteForm.action = '/Departamento/Delete/' + id;
-        });
+                var deleteForm =
+                    deleteModal.querySelector(
+                        '#deleteForm'
+                    );
+
+                deleteForm.action =
+                    '/Departamento/Delete/' + id;
+            }
+        );
+
     </script>
 }
