@@ -1,0 +1,352 @@
+﻿
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - PetShop</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/PetShop.styles.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+        :root {
+            --pet-primary: #287c70;
+            --pet-primary-dark: #1c5d54;
+            --pet-primary-light: #e7f4f0;
+            --pet-accent: #f2b66d;
+            --pet-background: #f6f8f7;
+            --pet-text: #283b38;
+            --pet-muted: #71817d;
+        }
+
+        body {
+            background-color: var(--pet-background);
+            color: var(--pet-text);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* CABEÇALHO */
+        .pet-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5eeeb;
+            box-shadow: 0 4px 18px rgba(31, 72, 63, 0.06);
+            padding: 12px 0;
+        }
+
+        .pet-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--pet-primary-dark) !important;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .pet-brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            color: white;
+            background: var(--pet-primary);
+            font-size: 1.5rem;
+        }
+
+        .pet-brand small {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--pet-muted);
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        /* MENU */
+        .pet-navbar .navbar-nav {
+            gap: 5px;
+            align-items: center;
+        }
+
+        .pet-navbar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #536560;
+            font-size: 0.93rem;
+            font-weight: 600;
+            padding: 11px 13px !important;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .pet-navbar .nav-link i {
+            font-size: 1.05rem;
+        }
+
+        .pet-navbar .nav-link:hover {
+            background: var(--pet-primary-light);
+            color: var(--pet-primary-dark);
+        }
+
+        .pet-navbar .nav-link.active {
+            background: var(--pet-primary);
+            color: #ffffff !important;
+        }
+
+        .pet-navbar .navbar-toggler {
+            border: 1px solid #dce8e4;
+            border-radius: 10px;
+            padding: 8px 11px;
+        }
+
+        .pet-navbar .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(40, 124, 112, 0.15);
+        }
+
+        /* CONTEÚDO */
+        .pet-main {
+            flex: 1;
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .pet-main h1,
+        .pet-main h2 {
+            color: var(--pet-primary-dark);
+            font-weight: 750;
+        }
+
+        .pet-main .card {
+            border: 1px solid #e7eeeb;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(31, 72, 63, 0.04);
+        }
+
+        .pet-main .btn-primary {
+            background-color: var(--pet-primary);
+            border-color: var(--pet-primary);
+        }
+
+        .pet-main .btn-primary:hover {
+            background-color: var(--pet-primary-dark);
+            border-color: var(--pet-primary-dark);
+        }
+
+        .pet-main .table {
+            --bs-table-bg: #ffffff;
+            vertical-align: middle;
+        }
+
+        .pet-main .table thead th {
+            white-space: nowrap;
+        }
+
+        .pet-main .table-responsive {
+            border-radius: 12px;
+        }
+
+        .pet-main .form-control,
+        .pet-main .form-select {
+            border-radius: 9px;
+            padding: 10px 12px;
+        }
+
+        .pet-main .form-control:focus,
+        .pet-main .form-select:focus {
+            border-color: #77b8a9;
+            box-shadow: 0 0 0 3px rgba(40, 124, 112, 0.12);
+        }
+
+        /* RODAPÉ */
+        .pet-footer {
+            background: #ffffff;
+            border-top: 1px solid #e5eeeb;
+            color: var(--pet-muted);
+            padding: 22px 0;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .pet-footer a {
+            color: var(--pet-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .pet-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .pet-footer-brand {
+            color: var(--pet-primary-dark);
+            font-weight: 700;
+        }
+
+        /* CELULAR E TABLET */
+        @@media (max-width: 991.98px) {
+            .pet-navbar .navbar-nav {
+                align-items: stretch;
+                padding-top: 14px;
+                gap: 4px;
+            }
+
+            .pet-navbar .nav-link {
+                padding: 12px 14px !important;
+            }
+
+            .pet-main {
+                padding-top: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg pet-navbar">
+            <div class="container">
+
+                <!-- LOGO -->
+                <a class="navbar-brand pet-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <span class="pet-brand-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </span>
+
+                    <span>
+                        PetShop
+                        <small>Cuidado e carinho animal</small>
+                    </span>
+                </a>
+
+                <!-- BOTÃO PARA CELULAR -->
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#menuPrincipal"
+                        aria-controls="menuPrincipal"
+                        aria-expanded="false"
+                        aria-label="Abrir ou fechar menu">
+
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- TODAS AS ABAS -->
+                <div class="collapse navbar-collapse"
+                     id="menuPrincipal">
+
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                <i class="bi bi-house-door"></i>
+                                Início
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Cliente"
+                               asp-action="Index">
+                                <i class="bi bi-people"></i>
+                                Clientes
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Veterinario"
+                               asp-action="Index">
+                                <i class="bi bi-person-badge"></i>
+                                Veterinários
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="ReservaServico"
+                               asp-action="Index">
+                                <i class="bi bi-calendar2-check"></i>
+                                Reservas
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Privacy">
+                                <i class="bi bi-shield-check"></i>
+                                Privacidade
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO DE CADA PÁGINA -->
+    <main role="main" class="container pet-main">
+        @RenderBody()
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="pet-footer">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between align-items-center gap-2">
+
+                <div>
+                    <span class="pet-footer-brand">
+                        <i class="bi bi-heart-fill"></i>
+                        PetShop
+                    </span>
+                    <span> — Cuidando de quem você ama.</span>
+                </div>
+
+                <div>
+                    &copy; 2026 PetShop.
+                    Todos os direitos reservados.
+                    <a asp-controller="Home"
+                       asp-action="Privacy">
+                        Privacidade
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

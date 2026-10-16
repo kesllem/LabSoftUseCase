@@ -1,0 +1,27 @@
+﻿@model PetShop.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login do Cliente";
+}
+
+<h2>Login do Cliente</h2>
+
+<form asp-controller="Account" asp-action="Login" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Cpf"></label>
+        <input asp-for="Cpf" class="form-control"
+               placeholder="Digite seu CPF" />
+        <span asp-validation-for="Cpf"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">
+        Entrar
+    </button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
